@@ -20,9 +20,12 @@ public class AdminInitializer implements CommandLineRunner {
     private final PasswordEncoder encoder;
     private final String user;
     private final String senha;
+    private final boolean reset;
 
     public AdminInitializer(UsuarioRepository usuarios, PasswordEncoder encoder,
-                            @Value("${app.admin.user}") String user, @Value("${app.admin.password:}") String senha) {
+                            @Value("${app.admin.user}") String user, @Value("${app.admin.password:}") String senha,
+                            @Value("${app.admin.reset:false}") boolean reset) {
+        this.reset = reset;
         this.usuarios = usuarios;
         this.encoder = encoder;
         this.user = user;
@@ -31,6 +34,18 @@ public class AdminInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        if (reset && !senha.isBlank()) {
+            String nome = user.trim().toLowerCase();
+            Usuario u = usuarios.findByUsername(nome).orElse(null);
+            if (u == null) {
+                usuarios.save(new Usuario(nome, encoder.encode(senha)));
+            } else {
+                u.setSenhaHash(encoder.encode(senha));
+                usuarios.save(u);
+            }
+            log.warn("Senha do usuário '{}' redefinida por ADMIN_RESET. Remova essa variável.", nome);
+            return;
+        }
         if (usuarios.count() > 0) return;
         String s = senha;
         if (s.isBlank()) {
