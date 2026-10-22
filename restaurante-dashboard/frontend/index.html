@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Painel do Restaurante</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+  <header class="topo">
+    <h1>Painel do Restaurante</h1>
+    <nav id="abas">
+      <button data-aba="analises" class="ativa">Análises</button>
+      <button data-aba="delivery">Delivery</button>
+      <button data-aba="mesas">Mesas</button>
+      <button data-aba="novo">Novo pedido</button>
+    </nav>
+    <div class="conta" id="conta" hidden>
+      <button type="button" class="sec" id="btnSenha">Alterar senha</button>
+      <button type="button" class="sec" id="btnSair">Sair</button>
+    </div>
+  </header>
+  <div id="aviso" class="aviso" hidden></div>
+
+  <div id="login" class="login" hidden>
+    <form id="formLogin" class="card">
+      <h2>Entrar</h2>
+      <label>Usuário <input id="lUser" autocomplete="username" required></label>
+      <label>Senha <input id="lSenha" type="password" autocomplete="current-password" required></label>
+      <p id="lErro" class="erro" role="alert" hidden></p>
+      <button type="submit">Entrar</button>
+    </form>
+  </div>
+
+  <main>
+    <section id="aba-analises">
+      <div class="barra">
+        <div class="seg" id="periodo">
+          <button data-p="DIARIO" class="ativa">Dia</button>
+          <button data-p="MENSAL">Mês</button>
+        </div>
+        <input type="date" id="data">
+      </div>
+      <div class="kpis" id="kpis"></div>
+      <div class="grade">
+        <div class="card larga"><h2 id="tituloSerie">Faturamento</h2><div class="graf"><canvas id="gSerie"></canvas></div></div>
+        <div class="card"><h2>Formas de pagamento</h2><div class="graf"><canvas id="gPag"></canvas></div></div>
+        <div class="card"><h2>Pedidos por plataforma</h2><div class="graf"><canvas id="gPlat"></canvas></div></div>
+        <div class="card larga"><h2>Itens mais pedidos</h2><div class="graf alto"><canvas id="gItens"></canvas></div></div>
+      </div>
+    </section>
+
+    <section id="aba-delivery" hidden>
+      <h2>Aplicativos conectados</h2>
+      <div class="apps" id="apps"></div>
+      <h2>Pedidos de delivery em andamento</h2>
+      <div id="listaDelivery" class="lista"></div>
+    </section>
+
+    <section id="aba-mesas" hidden>
+      <h2>Mesas com conta aberta</h2>
+      <div id="mesas" class="mesas"></div>
+    </section>
+
+    <section id="aba-novo" hidden>
+      <form id="form" class="card form">
+        <h2>Registrar pedido</h2>
+        <label>Canal
+          <select id="fCanal" required></select>
+        </label>
+        <label id="lMesa">Mesa <input type="number" id="fMesa" min="1"></label>
+        <label id="lCliente">Cliente <input type="text" id="fCliente" maxlength="120"></label>
+        <label>Pagamento
+          <select id="fPag"><option value="">Definir depois</option></select>
+        </label>
+        <div id="itens"></div>
+        <div class="acoes">
+          <button type="button" id="addItem" class="sec">+ Item</button>
+          <button type="submit">Salvar pedido</button>
+        </div>
+      </form>
+    </section>
+  </main>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
