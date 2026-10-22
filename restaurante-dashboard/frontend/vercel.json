@@ -1,6 +1,6 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/api/:path*", "destination": "https://SEU-BACKEND.onrender.com/api/:path*" }
+    { "source": "/api/:path*", "destination": "https://dashboard-restaurante-nseu.onrender.com/api/:path*" }
   ]
 }
